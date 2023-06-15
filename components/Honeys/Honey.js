@@ -82,7 +82,7 @@ const Honey = ({ honey, setHoneys }) => {
     const responseJson = await response.json();
 
     console.log(responseJson);
-
+    console.log(setHoneys);
     setHoneys((honeys) =>
       honeys.map((honey) => {
         if (honey._id === _id) {
