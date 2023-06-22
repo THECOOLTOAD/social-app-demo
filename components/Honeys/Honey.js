@@ -27,7 +27,7 @@ const tweetUrl =
   "https://twitter.com/intent/tweet?url=https%3A%2F%2Fsocialbutterfly.vercel.app%2F&text=Check%20out%20this%20cool%20social%20media%20Jamstack%20app%20I%20made%20using%20the%20@MongoDB%20Data%20API%2C%20@Vercel%20serverless%20functions%2C%20@GitHub%2C%20and%20@Auth0%20for%20user%20authentication%21%21%21";
 
 const useStyles = createStyles((theme) => ({
-  flutter: {
+  honey: {
     padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
     marginBottom: theme.spacing.sm,
   },
@@ -57,8 +57,8 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const Flutter = ({ flutter, setFlutters }) => {
-  const { _id, postedAt, body, user: flutterUser } = flutter;
+const Honey = ({ honey, setHoneys }) => {
+  const { _id, postedAt, body, user: honeyUser } = honey;
   const user = useUser();
   const [modalOpened, setModalOpened] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -67,25 +67,25 @@ const Flutter = ({ flutter, setFlutters }) => {
 
   const form = useForm({
     initialValues: {
-      editFlutter: "test",
+      editHoney: "test",
     },
   });
 
-  const editFlutter = () => {
-    form.setFieldValue("editFlutter", body);
+  const editHoney = () => {
+    form.setFieldValue("editHoney", body);
     setModalOpened(true);
   };
 
-  const onUpdateFlutter = async (value) => {
+  const onUpdateHoney = async (value) => {
     setInputDisabled(true);
-    const response = await fetch("/api/flutter", {
+    const response = await fetch("/api/honey", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         _id,
-        body: value.editFlutter,
+        body: value.editHoney,
       }),
     });
 
@@ -93,27 +93,27 @@ const Flutter = ({ flutter, setFlutters }) => {
 
     console.log(responseJson);
 
-    setFlutters((flutters) =>
-      flutters.map((flutter) => {
-        if (flutter._id === _id) {
+    setHoneys((honeys) =>
+      honeys.map((honey) => {
+        if (honey._id === _id) {
           return {
-            ...flutter,
-            body: value.editFlutter,
+            ...honey,
+            body: value.editHoney,
           };
         }
 
-        return flutter;
+        return honey;
       })
     );
 
     form.reset();
     setInputDisabled(false);
     setModalOpened(false);
-    showSuccess("Your flutter has been updated");
+    showSuccess("Your honey has been updated");
   };
 
-  const deleteFlutter = async () => {
-    const response = await fetch(`/api/flutter/`, {
+  const deleteHoney = async () => {
+    const response = await fetch(`/api/honey/`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const Flutter = ({ flutter, setFlutters }) => {
     const responseJson = await response.json();
     setDeleted(true);
     console.log(responseJson);
-    showSuccess("Your flutter has been deleted");
+    showSuccess("Your honey has been deleted");
   };
 
   const showSuccess = (message) => {
@@ -149,16 +149,16 @@ const Flutter = ({ flutter, setFlutters }) => {
           <Modal
             opened={modalOpened}
             onClose={() => setModalOpened(false)}
-            title="Edit your flutter."
+            title="Edit your honey."
           >
-            <form onSubmit={form.onSubmit((value) => onUpdateFlutter(value))}>
+            <form onSubmit={form.onSubmit((value) => onUpdateHoney(value))}>
               <Textarea
                 required
                 data-autofocus
-                placeholder="Edit your flutter."
+                placeholder="Edit your honey."
                 variant="filled"
                 className={classes.media}
-                {...form.getInputProps("editFlutter")}
+                {...form.getInputProps("editHoney")}
               />
               <Group position={"right"} mt={20}>
                 <Button type="submit" disabled={inputDisabled}>
@@ -167,15 +167,15 @@ const Flutter = ({ flutter, setFlutters }) => {
               </Group>
             </form>
           </Modal>
-          <Card withBorder radius="md" className={classes.flutter}>
+          <Card withBorder radius="md" className={classes.honey}>
             <Group>
               <Avatar
-                src={flutterUser.picture}
-                alt={flutterUser.name}
+                src={honeyUser.picture}
+                alt={honeyUser.name}
                 radius="xl"
               />
               <div>
-                <Text size="sm">{flutterUser.nickname}</Text>
+                <Text size="sm">{honeyUser.nickname}</Text>
                 <Text size="xs" color="dimmed">
                   {new Date(postedAt).toLocaleString()}
                 </Text>
@@ -219,10 +219,10 @@ const Flutter = ({ flutter, setFlutters }) => {
                       Twitter
                     </Menu.Item>
                   </Menu>
-                  {user.id === flutterUser.id && (
+                  {user.id === honeyUser.id && (
                     <>
                       <ActionIcon
-                        onClick={() => editFlutter()}
+                        onClick={() => editHoney()}
                         size="lg"
                         sx={(theme) => ({
                           color:
@@ -234,7 +234,7 @@ const Flutter = ({ flutter, setFlutters }) => {
                         <Edit size={18} />
                       </ActionIcon>
                       <ActionIcon
-                        onClick={() => deleteFlutter()}
+                        onClick={() => deleteHoney()}
                         size="lg"
                         sx={(theme) => ({
                           color:
@@ -257,4 +257,4 @@ const Flutter = ({ flutter, setFlutters }) => {
   );
 };
 
-export default Flutter;
+export default Honey;

@@ -6,10 +6,10 @@ import { showNotification } from '@mantine/notifications';
 import { Check } from 'tabler-icons-react';
 
 const useStyles = createStyles((theme) => ({
-  flutter: {
+  honey: {
     padding: `${theme.spacing.lg}px ${theme.spacing.xl}px`,
   },
-  createFlutter: {
+  createHoney: {
     justifyContent: "center",
   },
   media: {
@@ -20,21 +20,21 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const CreateFlutter = ({ setFlutters }) => {
+const CreateHoney = ({ setHoneys }) => {
   const user = useUser();
   const { classes } = useStyles();
   const form = useForm({
     initialValues: {
-      flutter: "",
+      honey: "",
     },
   });
   const [inputDisabled, setInputDisabled] = useState(false);
 
-  const onSubmitFlutter = async (value) => {
+  const onSubmitHoney = async (value) => {
     setInputDisabled(true);
-    const flutter = {
+    const honey = {
       postedAt: Date.now(),
-      body: value.flutter,
+      body: value.honey,
       likes: [],
       user: {
         id: user.id,
@@ -43,22 +43,22 @@ const CreateFlutter = ({ setFlutters }) => {
         picture: user.picture,
       },
     };
-    const response = await fetch("/api/flutter", {
+    const response = await fetch("/api/honey", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(flutter),
+      body: JSON.stringify(honey),
     });
 
     const responseJson = await response.json();
     
-    setFlutters((flutters) => [
+    setHoneys((honeys) => [
       {
         _id: responseJson.insertedId,
-        ...flutter
+        ...honey
       },
-      ...flutters,
+      ...honeys,
     ]);
     form.reset();
     setInputDisabled(false);
@@ -68,7 +68,7 @@ const CreateFlutter = ({ setFlutters }) => {
   const showSuccess = () => {
     showNotification({
       title: "Success",
-      message: "Your flutter has been sent",
+      message: "Your honey has been sent",
       icon: <Check size={18} />,
       autoClose: 5000,
       styles: (theme) => ({
@@ -82,14 +82,14 @@ const CreateFlutter = ({ setFlutters }) => {
   return (
     <Group position={"center"} mt={10} mb={20}>
       <Avatar src={user.picture} alt={user.name} radius="xl" />
-      <form onSubmit={form.onSubmit((value) => onSubmitFlutter(value))}>
+      <form onSubmit={form.onSubmit((value) => onSubmitHoney(value))}>
         <Group>
           <Textarea
             required
-            placeholder="Send a flutter..."
+            placeholder="Send a honey..."
             variant="filled"
             className={classes.media}
-            {...form.getInputProps("flutter")}
+            {...form.getInputProps("honey")}
           />
           <Button type="submit" disabled={inputDisabled}>Send</Button>
         </Group>
@@ -98,4 +98,4 @@ const CreateFlutter = ({ setFlutters }) => {
   );
 };
 
-export default CreateFlutter;
+export default CreateHoney;

@@ -3,13 +3,13 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import { useSetUser } from "../context/UserContext";
 import { AppShell, LoadingOverlay } from "@mantine/core";
 import Navbar from "../components/Navbar/Navbar";
-import Flutters from "../components/Flutters/Flutters";
-import CreateFlutter from "../components/Flutters/CreateFlutter";
+import Honeys from "../components/Honeys/Honeys";
+import CreateHoney from "../components/Honeys/CreateHoney";
 import HeaderSearch from "../components/Header/HeaderSearch";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
-  const [flutters, setFlutters] = useState([]);
+  const [flutters, setHoneys] = useState([]);
   const [page, setPage] = useState("Home");
   const setUser = useSetUser();
 
@@ -19,9 +19,9 @@ export default function Home() {
       const getUserJson = await getUser.json();
       setUser(getUserJson);
 
-      const getFlutters = await fetch("/api/flutter");
-      const getFluttersJson = await getFlutters.json();
-      setFlutters(getFluttersJson);
+      const getHoneys = await fetch("/api/flutter");
+      const getHoneysJson = await getHoneys.json();
+      setHoneys(getHoneysJson);
 
       setIsLoading(false);
     })();
@@ -41,8 +41,8 @@ export default function Home() {
       })}
     >
       <LoadingOverlay visible={isLoading} />
-      <CreateFlutter setFlutters={setFlutters} />
-      <Flutters flutters={flutters} setFlutters={setFlutters} />
+      <CreateHoney setHoneys={setHoneys} />
+      <Honeys flutters={flutters} setHoneys={setHoneys} />
     </AppShell>
   );
 }
